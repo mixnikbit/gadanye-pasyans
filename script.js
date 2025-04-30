@@ -7,20 +7,19 @@ document.addEventListener('DOMContentLoaded', () => {
     cards = Object.keys(c);
     cardMeanings = c;
     comboMeanings = combos;
-  }).catch(err => console.error('JSON error:', err));
+  }).catch(err => console.error('JSON load error:', err));
 
   const container = document.getElementById('card-container');
   document.getElementById('btn-single').addEventListener('click', () => {
     if (!cards.length) return;
     const card = cards[Math.floor(Math.random()*cards.length)];
-    container.innerHTML = `<img src="images/${card}" alt="${card}"><p><strong>${card.replace('.png','')}</strong>: ${cardMeanings[card]}</p>`;
+    container.innerHTML = `<img src="images/${card}" alt="${card}"><p><strong>${card.replace('.png','')}</strong>: ${cardMeanings[card] || 'Нет описания.'}</p>`;
   });
   document.getElementById('btn-pair').addEventListener('click', () => {
     if (cards.length<2) return;
     let i=Math.floor(Math.random()*cards.length), j;
     do{j=Math.floor(Math.random()*cards.length);}while(j===i);
-    const a=cards[i], b=cards[j];
-    const key=`${a} + ${b}`, rev=`${b} + ${a}`;
-    container.innerHTML = `<img src="images/${a}" alt="${a}"><img src="images/${b}" alt="${b}"><p><strong>${a.replace('.png','')} + ${b.replace('.png','')}</strong>: ${comboMeanings[key]||comboMeanings[rev]||''}</p>`;
+    const a=cards[i], b=cards[j], key=`${a} + ${b}`, rev=`${b} + ${a}`;
+    container.innerHTML = `<img src="images/${a}" alt="${a}"><img src="images/${b}" alt="${b}"><p><strong>${a.replace('.png','')} + ${b.replace('.png','')}</strong>: ${comboMeanings[key] || comboMeanings[rev] || 'Нет толкования.'}</p>`;
   });
 });
